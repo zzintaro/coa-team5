@@ -1,0 +1,61 @@
+float pacmanX, pacmanY, speedX, speedY, pacmanSize;
+float yohaan_x, yohaan_y, yohaan_d, yohaan_x_speed, yohaan_y_speed;
+float cryX, cryY, cry_speedX, cry_speedY, crySize;
+
+void setup(){
+  size(800,600); // width, height
+  speedX = 3; speedY = 3; pacmanX = width / 2; pacmanY = height / 2; pacmanSize = 100; // pacman
+  yohaan_x_speed = 5; yohaan_y_speed = -5; yohaan_x = 200; yohaan_y = 200; yohaan_d = 150; // yohaan
+  cry_speedX = -7; cry_speedY = -7; cryX = 100; cryY = 400; crySize = 5; // crying
+}
+void draw() {
+  background(0);  // 배경을 검은색으로 설정
+  pacmanX += speedX; pacmanY += speedY;
+  yohaan_x -= yohaan_x_speed; yohaan_y -= yohaan_y_speed;
+  cryX -= cry_speedX; cryY += cry_speedY;
+  
+  drawPacman(pacmanX, pacmanY, pacmanSize);
+  yohaan_face(yohaan_x, yohaan_y, yohaan_d);
+  crying(cryX, cryY, crySize);
+  
+  if (pacmanX - pacmanSize / 2 < 0 || pacmanX + pacmanSize / 2 > width) {speedX *= -1;}
+  if (pacmanY - pacmanSize / 2 < 0 || pacmanY + pacmanSize / 2 > height) {speedY *= -1;}
+  if (yohaan_x < 0 || yohaan_x > width) {yohaan_x_speed = -yohaan_x_speed;}
+  if (yohaan_y < 0 || yohaan_y > height) {yohaan_y_speed = -yohaan_y_speed;}
+  if (cryX < 0 || cryX > width) {cry_speedX = -cry_speedX;}
+  if (cryY < 0 || cryY > height) {cry_speedY = -cry_speedY;}
+}
+
+void crying(float x, float y, float d){
+  fill(#fbceb1);
+circle(x, y, 22*d); // face
+fill(0);
+circle(x-6*d, y, 6*d); // left eye
+circle(x+6*d, y, 6*d); // right eye
+fill(255,0,0);
+arc(x, y+4*d, 6*d, 2*d, PI, 2*PI); // mouth
+fill(255);
+circle(x-7*d, y-d, 2*d); // left tear
+circle(x+5*d, y-d, 2*d); // right tear
+rect(x-3*d, y+4*d, 6*d, d); // teeth
+}
+void yohaan_face(float yohaan_x, float yohaan_y, float yohaan_d){
+  fill(255, 255, 255);
+  circle(yohaan_x, yohaan_y, yohaan_d); // head
+  fill(0, 0, 0);
+  circle(yohaan_x - yohaan_d/4, yohaan_y, yohaan_d/2); //left eye
+  circle(yohaan_x + yohaan_d/4, yohaan_y, yohaan_d/2); //right eye
+  arc(yohaan_x, yohaan_y - yohaan_d/4, yohaan_d/2, yohaan_d/32, PI, 2 * PI);
+  rect(yohaan_x - yohaan_d/4, yohaan_y - yohaan_d/4, yohaan_d/2, yohaan_d/4);
+  rect(yohaan_x - yohaan_d/4, yohaan_y, yohaan_d/2, yohaan_d/6);
+  fill(255);
+  arc(yohaan_x, yohaan_y + yohaan_d/3.6, yohaan_d/4, yohaan_d/4, PI * 1.3, 1.7 * PI);
+  arc(yohaan_x, yohaan_y + yohaan_d/3, yohaan_d/2, yohaan_d/8, 0, PI);
+}
+void drawPacman(float x, float y, float s) {
+  fill(255, 255, 0);  // 노란색
+  noStroke();
+  arc(x, y, s, s, radians(30), radians(330), PIE);
+  fill(0);
+  ellipse(x + s * 0.2, y - s * 0.25, s * 0.15, s * 0.15);
+}
