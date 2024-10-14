@@ -1,0 +1,114 @@
+int number = 200;
+int x_list [] = new int [number];
+int y_list [] = new int [number];
+
+int axis_x = int(random(-100, 100));
+int axis_y = int(random(-100, 100));
+int x, y;
+int bar_x = -100;
+int bar_y = -100;
+char rate_bar_move = ' ';
+
+
+int counter = 20;
+float correct;
+
+
+void setup(){
+  size(400, 600);
+}
+
+void draw(){
+  frameRate(60);
+  background(255);
+  fill(0, 0, 0);
+  textSize(50);
+  text("Guess the origin", 25, 50);
+  strokeWeight(5);
+  line(200, 100, 200, 400);
+  line(50, 250, 350, 250);
+  fill(255, 0, 0);
+  strokeWeight(0);
+  strokeWeight(5);
+  fill(255, 255, 255);
+  line(100, 450, 300, 450);
+  line(100, 500, 300, 500);
+  fill(255, 0, 0);
+  circle(bar_x + 200, 450, 20);
+  circle(bar_y + 200, 500, 20);
+  fill(0);
+  text(str(bar_x), 300, 450);
+  text(str(bar_y), 300, 500);
+  fill(255, 0, 0);
+  strokeWeight(3);
+  circle(50, 550, 50);
+  textSize(40);
+  fill(255);
+  text(str(counter), 30, 570);
+  textSize(20);
+  fill(0);
+  if (counter < 20){
+    if (correct != 0){
+      String result = String.format("distance %f from origin.", correct);
+      text(result, 100, 550);
+    }
+      
+  }
+  if (counter <= 0 && correct != 0){
+    text("you lose HAHA", 100, 600);
+  }
+  
+    
+  if (correct == 0 && counter != 20){
+    text("you win", 100, 550);
+    fill(255, 0, 0);
+    circle(float(200 + axis_x * 3 / 2), float(250 + axis_y * 3 / 2), 20);
+  }
+  
+  
+}
+
+void mousePressed(){
+  if (100 < mouseX  && mouseX < 300 && 430 < mouseY && mouseY < 470){
+    bar_x = mouseX - 200;
+    rate_bar_move = 'x';
+  }
+  if (100 < mouseX  && mouseX < 300 && 480 < mouseY && mouseY < 520){
+    bar_y = (mouseX - 200);
+    rate_bar_move = 'y';
+  }
+  if ((50 - mouseX) * (50 - mouseX) + (550 - mouseY) * (550 - mouseY) <= 50 * 50){
+    correct = sqrt(pow((axis_x - bar_x), 2) + pow((axis_y - -(bar_y)), 2));
+    counter -= 1;
+  }
+}
+
+void keyPressed(){
+  if (key == 'a'){
+    if (rate_bar_move == 'x'){
+      if (-100 < bar_x){
+        bar_x -= 1;
+      }
+    }
+    if (rate_bar_move == 'y'){
+      if (-100 < bar_y){
+        bar_y -= 1;
+      }
+    }
+  }
+  
+    
+    if (key == 'd'){
+      if (rate_bar_move == 'x'){
+        if (bar_x < 100){
+          bar_x += 1;
+        }
+        
+      }
+      if (rate_bar_move == 'y'){
+        if (bar_y < 100){
+          bar_y += 1;
+        }
+      }
+    }
+}
